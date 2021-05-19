@@ -1,5 +1,7 @@
-import QtQuick 2.0
+import QtQuick 2.12
+import QtQuick.Layouts 1.4
 import "."
+import "layouts"
 import FreeVirtualKeyboard 1.0
 
 /**
@@ -9,7 +11,8 @@ import FreeVirtualKeyboard 1.0
  * Copyright 2015 Uwe Kindler
  * Licensed under MIT see LICENSE.MIT in project root
  */
-Item {
+Item
+{
     id:root
     objectName: "inputPanel"
     width: parent.width
@@ -17,45 +20,48 @@ Item {
     // Report actual keyboard rectangle to input engine
     onYChanged: InputEngine.setKeyboardRectangle(Qt.rect(x, y, width, height))
 
-    KeyModel {
-        id:keyModel
+    property var model
+    property color backgroundColor: "black"
+
+    signal enterPressed()
+
+    function switchKeySetByImh(value)
+    {
+        layoutSelector.selectKeySetByImg(value);
     }
-    FontLoader {
+
+    property font font: Qt.font(
+    {
+        family: 'Helvetica',
+        weight: Font.Normal,
+        italic: false,
+        pointSize: 12
+    })
+
+    LayoutSelector
+    {
+        id: layoutSelector
+    }
+    FontLoader
+    {
         source: "FontAwesome.otf"
     }
-    QtObject {
+    QtObject
+    {
         id:pimpl
         property bool shiftModifier: false
-        property bool symbolModifier: false
-        property int verticalSpacing: keyboard.height / 40
+        property int verticalSpacing: Math.round(keyboard.height / 40)
         property int horizontalSpacing: verticalSpacing
-        property int rowHeight: keyboard.height/4 - verticalSpacing
-        property int buttonWidth:  (keyboard.width-column.anchors.margins)/10 - horizontalSpacing
+        property int rowHeight: Math.round(keyboard.height/4 - verticalSpacing)
+        property int buttonWidth:  Math.round((keyboard.width-column.anchors.margins)/10 - horizontalSpacing)
     }
 
-    /**
-     * The delegate that paints the key buttons
-     */
-    Component {
-        id: keyButtonDelegate
-        KeyButton {
-            id: button
-            width: pimpl.buttonWidth
-            height: pimpl.rowHeight
-            text: (pimpl.shiftModifier) ? letter.toUpperCase() : (pimpl.symbolModifier)?firstSymbol : letter
-            inputPanel: root
-        }
-    }
-
-    Connections {
-        target: InputEngine
-        // Switch the keyboard layout to Numeric if the input mode of the InputEngine changes
-        onInputModeChanged: {
-            pimpl.symbolModifier = ((InputEngine.inputMode == InputEngine.Numeric)
-                                 || (InputEngine.inputMode == InputEngine.Dialable))
-            if (pimpl.symbolModifier) {
-                pimpl.shiftModifier = false
-            }
+    Connections
+    {
+        target: root.model
+        function onInputMethodHintsChanged(value)
+        {
+            layoutSelector.switchKeySetByImh(value);
         }
     }
 
@@ -64,7 +70,6 @@ Item {
      */
     function showKeyPopup(keyButton)
     {
-        console.log("showKeyPopup");
         keyPopup.popup(keyButton, root);
     }
 
@@ -80,7 +85,7 @@ Item {
 
     Rectangle {
         id:keyboard
-        color: "black"
+        color: root.backgroundColor
         anchors.fill: parent;
         MouseArea {
             anchors.fill: parent
@@ -92,136 +97,55 @@ Item {
             anchors.fill: parent
             spacing: pimpl.verticalSpacing
 
-            Row {
-                height: pimpl.rowHeight
-                spacing: pimpl.horizontalSpacing
-                anchors.horizontalCenter:parent.horizontalCenter
-                Repeater {
-                    model: keyModel.firstRowModel
-                    delegate: keyButtonDelegate
+            Connections
+            {
+                target: layoutSelector
+                function onCurrentLayoutChanged()
+                {
+                    rowsRepeater.model = layoutSelector.currentLayout.rows;
                 }
             }
-            Row {
-                height: pimpl.rowHeight
-                spacing: pimpl.horizontalSpacing
-                anchors.horizontalCenter:parent.horizontalCenter
-                Repeater {
-                    model: keyModel.secondRowModel
-                    delegate: keyButtonDelegate
-                }
-            }
-            Item {
-                height: pimpl.rowHeight
-                width:parent.width
-                KeyButton {
-                    id: shiftKey
-                    color: (pimpl.shiftModifier)? "#1e6fa7": "#1e1b18"
-                    anchors.left: parent.left
-                    width: 1.25*pimpl.buttonWidth
-                    height: pimpl.rowHeight
-                    font.family: "FontAwesome"
-                    text: "\uf062"
-                    functionKey: true
-                    onClicked: {
-                        if (pimpl.symbolModifier) {
-                            pimpl.symbolModifier = false
-                        }
-                        pimpl.shiftModifier = !pimpl.shiftModifier
-                    }
-                    inputPanel: root
-                }
-                Row {
+
+            Repeater
+            {
+                id: rowsRepeater
+                width: parent.width
+                delegate:
+                RowLayout
+                {
+                    id: row
                     height: pimpl.rowHeight
                     spacing: pimpl.horizontalSpacing
                     anchors.horizontalCenter:parent.horizontalCenter
-                    Repeater {
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        model: keyModel.thirdRowModel
-                        delegate: keyButtonDelegate
+                    width: parent.width
+
+                    Component.onCompleted:
+                    {
+                        pimpl.rowHeight = (root.height / layoutSelector.currentLayout.rows.count) - pimpl.verticalSpacing;
                     }
-                }
-                KeyButton {
-                    id: backspaceKey
-                    font.family: "FontAwesome"
-                    color: "#1e1b18"
-                    anchors.right: parent.right
-                    width: 1.25*pimpl.buttonWidth
-                    height: pimpl.rowHeight
-                    text: "\x7F"
-                    displayText: "\uf177"
-                    inputPanel: root
-                    repeat: true
-                }
-            }
-            Row {
-                height: pimpl.rowHeight
-                spacing: pimpl.horizontalSpacing
-                anchors.horizontalCenter:parent.horizontalCenter
-                KeyButton {
-                    id: hideKey
-                    color: "#1e1b18"
-                    width: 1.25*pimpl.buttonWidth
-                    height: pimpl.rowHeight
-                    font.family: "FontAwesome"
-                    text: "\uf078"
-                    functionKey: true
-                    onClicked: {
-                        Qt.inputMethod.hide()
-                    }
-                    inputPanel: root
-                    showPreview: false
-                }
-                KeyButton {
-                    color: "#1e1b18"
-                    width: 1.25*pimpl.buttonWidth
-                    height: pimpl.rowHeight
-                    text: ""
-                    inputPanel: root
-                    functionKey: true
-                }
-                KeyButton {
-                    width: pimpl.buttonWidth
-                    height: pimpl.rowHeight
-                    text: ","
-                    inputPanel: root
-                }
-                KeyButton {
-                    id: spaceKey
-                    width: 3*pimpl.buttonWidth
-                    height: pimpl.rowHeight
-                    text: " "
-                    inputPanel: root
-                    showPreview: false
-                }
-                KeyButton {
-                    width: pimpl.buttonWidth
-                    height: pimpl.rowHeight
-                    text: "."
-                    inputPanel: root
-                }
-                KeyButton {
-                    id: symbolKey
-                    color: "#1e1b18"
-                    width: 1.25*pimpl.buttonWidth
-                    height: pimpl.rowHeight
-                    text: (!pimpl.symbolModifier)? "12#" : "ABC"
-                    functionKey: true
-                    onClicked: {
-                        if (pimpl.shiftModifier) {
-                            pimpl.shiftModifier = false
+
+                    Repeater
+                    {
+                        model: keys
+                        delegate: KeySelector
+                        {
+                            id: keyButton
+                            key: model.key
+                            modeSwitchTarget: model.hasOwnProperty("modeSwitchTarget") && model.modeSwitchTarget ? model.modeSwitchTarget : ""
+                            widthFactor: model.hasOwnProperty("widthFactor") && model.widthFactor > 0 ? model.widthFactor : -1
+                            displayText: model.hasOwnProperty("displayText") && model.displayText ? model.displayText : ""
+
+                            Connections
+                            {
+                                target: keyButton
+                                function onSwitchToKeySet(value)
+                                {
+                                    keyPopup.visible = false;
+                                    layoutSelector.switchKeySet(value);
+                                }
+                            }
                         }
-                        pimpl.symbolModifier = !pimpl.symbolModifier
                     }
-                    inputPanel: root
-                }
-                KeyButton {
-                    id: enterKey
-                    color: "#1e1b18"
-                    width: 1.25*pimpl.buttonWidth
-                    height: pimpl.rowHeight
-                    displayText: "Enter"
-                    text: "\n"
-                    inputPanel: root
                 }
             }
         }

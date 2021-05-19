@@ -22,24 +22,36 @@ HEADERS += VirtualKeyboardInputContextPlugin.h\
 
 
 deployment.files = *.qml FontAwesome.otf qmldir
+deployment_layouts.files = layouts/*.qml
+
 
 linux-buildroot-g++ {
     deployment.path = /usr/qml/QtQuick/FreeVirtualKeyboard
+    deployment_layouts.path = /usr/qml/QtQuick/FreeVirtualKeyboard/layouts
     target.path = /usr/lib/qt/plugins/platforminputcontexts
 } else {
     deployment.path = $$[QT_INSTALL_QML]/QtQuick/FreeVirtualKeyboard
+    deployment_layouts.path = $$[QT_INSTALL_QML]/QtQuick/FreeVirtualKeyboard/layouts
     target.path = $$[QT_INSTALL_PLUGINS]/platforminputcontexts
 }
 
 
 INSTALLS += target \
-    deployment
+    deployment \
+    deployment_layouts
 
 OTHER_FILES += \
     InputPanel.qml \
-    KeyModel.qml \
+    KeySelector.qml \
     KeyButton.qml \
-    KeyPopup.qml
+    KeyPopup.qml \
+    LayoutSelector.qml \
+    layouts/Layout_en_US.qml
 
 RESOURCES += \
     virtualkeyboard.qrc
+
+DISTFILES += \
+    KeySelector.qml \
+    LayoutSelector.qml \
+    layouts/Layout_en_US.qml

@@ -103,7 +103,7 @@ bool DeclarativeInputEngine::virtualKeyClick(Qt::Key key, const QString & text, 
 //==============================================================================
 void DeclarativeInputEngine::sendKeyToFocusItem(const QString& text)
 {
-    qDebug() << "CDeclarativeInputEngine::sendKeyToFocusItem " << text;
+    //qDebug() << "CDeclarativeInputEngine::sendKeyToFocusItem " << text;
     QInputMethodEvent ev;
     if (text == QString("\x7F"))
     {
@@ -196,7 +196,7 @@ int DeclarativeInputEngine::inputMode() const
 //==============================================================================
 void DeclarativeInputEngine::setInputMode(int Mode)
 {
-    qDebug() << "CDeclarativeInputEngine::setInputMode " << Mode;
+    //qDebug() << "CDeclarativeInputEngine::setInputMode " << Mode;
     if (Mode != d->InputMode)
     {
         d->InputMode = Mode;

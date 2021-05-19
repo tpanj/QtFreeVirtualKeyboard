@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.12
 import FreeVirtualKeyboard 1.0
 
 /**
@@ -127,11 +127,11 @@ Item {
             if (root.state == "")
             {
                 root.state = "REPEATING"
-                console.log("switching to repeating");
+                //console.log("switching to repeating");
             }
             else if (root.state == "REPEATING")
             {
-                console.log("repeating");
+                //console.log("repeating");
             }
 
             if (!functionKey)
@@ -142,7 +142,7 @@ Item {
     }
 
     onInputPanelChanged: {
-        console.log("onInputPanelChanged: " + inputPanel.objectName);
+        // console.log("onInputPanelChanged: " + inputPanel.objectName);
     }
 
     /**
@@ -160,7 +160,7 @@ Item {
 
     onReleased: {
         state = ""
-        console.log("onReleased - functionKey = " + functionKey)
+        //console.log("onReleased - functionKey = " + functionKey)
         if (!functionKey)
         {
             InputEngine.sendKeyToFocusItem(text)
