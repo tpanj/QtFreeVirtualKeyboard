@@ -130,6 +130,7 @@ Item
                         delegate: KeySelector
                         {
                             id: keyButton
+                            objectName: "keyButton_" + model.key
                             key: model.key
                             modeSwitchTarget: model.hasOwnProperty("modeSwitchTarget") && model.modeSwitchTarget ? model.modeSwitchTarget : ""
                             widthFactor: model.hasOwnProperty("widthFactor") && model.widthFactor > 0 ? model.widthFactor : -1
