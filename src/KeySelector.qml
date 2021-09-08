@@ -41,6 +41,7 @@ Loader
             displayText: control.displayText != "" ? control.displayText : text
             functionKey: true
             onClicked: {
+                forceActiveFocus();
                 Qt.inputMethod.hide();
                 root.model.hide();
             }
