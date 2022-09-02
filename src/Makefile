@@ -224,6 +224,7 @@ DIST          = KeySelector.qml \
 		/opt/qt5/mkspecs/features/qt_config.prf \
 		/opt/qt5/mkspecs/linux-g++/qmake.conf \
 		/opt/qt5/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/opt/qt5/mkspecs/features/exclusive_builds.prf \
 		/opt/qt5/mkspecs/features/toolchain.prf \
 		/opt/qt5/mkspecs/features/default_pre.prf \
@@ -418,6 +419,7 @@ Makefile: virtualkeyboard.pro /opt/qt5/mkspecs/linux-g++/qmake.conf /opt/qt5/mks
 		/opt/qt5/mkspecs/features/qt_config.prf \
 		/opt/qt5/mkspecs/linux-g++/qmake.conf \
 		/opt/qt5/mkspecs/features/spec_post.prf \
+		.qmake.stash \
 		/opt/qt5/mkspecs/features/exclusive_builds.prf \
 		/opt/qt5/mkspecs/features/toolchain.prf \
 		/opt/qt5/mkspecs/features/default_pre.prf \
@@ -595,6 +597,7 @@ Makefile: virtualkeyboard.pro /opt/qt5/mkspecs/linux-g++/qmake.conf /opt/qt5/mks
 /opt/qt5/mkspecs/features/qt_config.prf:
 /opt/qt5/mkspecs/linux-g++/qmake.conf:
 /opt/qt5/mkspecs/features/spec_post.prf:
+.qmake.stash:
 /opt/qt5/mkspecs/features/exclusive_builds.prf:
 /opt/qt5/mkspecs/features/toolchain.prf:
 /opt/qt5/mkspecs/features/default_pre.prf:

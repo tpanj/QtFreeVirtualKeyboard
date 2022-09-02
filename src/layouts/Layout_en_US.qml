@@ -146,12 +146,12 @@ Item {
         property var keys:
         ListModel {
             ListElement { key: "hideKey"; }
-            ListElement { key: "spacer"; widthFactor: 1.25 }
+            ListElement { key: "modeSwitchKey"; displayText: "123"; modeSwitchTarget: "numeric" }
             ListElement { key: "fillWidth"; }
             ListElement { key: ","; keycode: Qt.Key_Comma}
             ListElement { key: "spaceKey"; keycode: Qt.Key_Space}
             ListElement { key: "."; keycode: Qt.Key_Period}
-            ListElement { key: "modeSwitchKey"; displayText: "12#"; modeSwitchTarget: "symbol" }
+            ListElement { key: "modeSwitchKey"; displayText: "#?/"; modeSwitchTarget: "symbol" }
             ListElement { key: "enterKey"; }
         }
     }
@@ -219,7 +219,7 @@ Item {
         property var keys:
         ListModel {
             ListElement { key: "hideKey"; }
-            ListElement { key: "spacer"; widthFactor: 1.25 }
+            ListElement { key: "modeSwitchKey"; displayText: "123"; modeSwitchTarget: "numeric" }
             ListElement { key: "fillWidth"; }
             ListElement { key: ","; keycode: Qt.Key_Comma}
             ListElement { key: "spaceKey"; keycode: Qt.Key_Space}
