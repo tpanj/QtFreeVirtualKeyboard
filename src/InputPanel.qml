@@ -51,9 +51,9 @@ Item
         id:pimpl
         property bool shiftModifier: false
         property int verticalSpacing: Math.round(keyboard.height / 40)
-        property int horizontalSpacing: verticalSpacing
+        property int horizontalSpacing: verticalSpacing - 3
         property int rowHeight: Math.round(keyboard.height/4 - verticalSpacing)
-        property int buttonWidth:  Math.round((keyboard.width-column.anchors.margins)/10 - horizontalSpacing)
+        property int buttonWidth:  Math.round((keyboard.width-column.anchors.margins)/10 - horizontalSpacing) - 2
     }
 
     Connections
@@ -110,6 +110,7 @@ Item
             {
                 id: rowsRepeater
                 width: parent.width
+
                 delegate:
                 RowLayout
                 {
@@ -127,7 +128,9 @@ Item
                     Repeater
                     {
                         model: keys
-                        delegate: KeySelector
+
+                        delegate:
+                        KeySelector
                         {
                             id: keyButton
                             objectName: "keyButton_" + model.key

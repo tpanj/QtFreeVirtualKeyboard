@@ -8,6 +8,8 @@ Loader
     property string displayText
     property string modeSwitchTarget: ""
     property real widthFactor: -1
+    Layout.preferredHeight: item.Layout.fillWidth ? 0 : item.height
+    Layout.preferredWidth: item.Layout.fillWidth ? 0 : item.width
 
     signal switchToKeySet(string value)
 

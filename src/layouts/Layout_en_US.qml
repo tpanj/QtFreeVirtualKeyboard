@@ -236,7 +236,7 @@ Item {
         id: numericRow1
         property var keys:
             ListModel {
-                ListElement { key: "spacer"; widthFactor: 2.70 }
+                ListElement { key: "spacer"; widthFactor: 2.60 }
                 ListElement { key: "1"; widthFactor: 2; keycode: Qt.Key_1 }
                 ListElement { key: "2"; widthFactor: 2; keycode: Qt.Key_2 }
                 ListElement { key: "3"; widthFactor: 2; keycode: Qt.Key_3 }
@@ -248,7 +248,7 @@ Item {
         id: numericRow2
         property var keys:
         ListModel {
-            ListElement { key: "spacer"; widthFactor: 2.70 }
+            ListElement { key: "spacer"; widthFactor: 2.60 }
             ListElement { key: "4"; widthFactor: 2; keycode: Qt.Key_4 }
             ListElement { key: "5"; widthFactor: 2; keycode: Qt.Key_5 }
             ListElement { key: "6"; widthFactor: 2; keycode: Qt.Key_6 }
@@ -260,7 +260,7 @@ Item {
         id: numericRow3
         property var keys:
         ListModel {
-            ListElement { key: "spacer"; widthFactor: 2.70 }
+            ListElement { key: "spacer"; widthFactor: 2.60 }
             ListElement { key: "7"; widthFactor: 2; keycode: Qt.Key_7 }
             ListElement { key: "8"; widthFactor: 2; keycode: Qt.Key_8 }
             ListElement { key: "9"; widthFactor: 2; keycode: Qt.Key_9 }
@@ -279,7 +279,7 @@ Item {
             ListElement { key: ","; widthFactor: 2; keycode: Qt.Key_Comma}
             ListElement { key: "."; widthFactor: 2; keycode: Qt.Key_Period}
             ListElement { key: "fillWidth"; }
-            ListElement { key: "spacer"; widthFactor: 0.55 }
+            ListElement { key: "spacer"; widthFactor: 0.5 }
             ListElement { key: "enterKey"; }
         }
     }
