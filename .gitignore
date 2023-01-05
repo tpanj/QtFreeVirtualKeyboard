@@ -4,6 +4,6 @@ build
 /examples/qmlapp/*.exe
 /examples/qmlapp/qmlappdemo.pro.user
 .qmake.stash
-#src/*.o
-#src/*.so
+src/*.o
+src/*.so
 .idea
