@@ -6,3 +6,4 @@ build
 .qmake.stash
 src/*.o
 src/*.so
+.idea
