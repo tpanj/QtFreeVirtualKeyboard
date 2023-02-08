@@ -8,4 +8,10 @@ build
 .qmake.stash
 src/*.o
 src/*.so
+*.o
+*.so
 .idea
+*.cpp
+*.h
+Makefile
+install
